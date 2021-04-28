@@ -10,3 +10,4 @@ with open(folder + filename, encoding ='ISO-8859-1') as csvfile :
     for row in covidreader :
         data.append(row)
 
+t='test'
