@@ -8,7 +8,7 @@ class Table :
         /!\ position est ici utilisé comme "premier" ou "deuxième" en partant du début (indice dans la liste +1)
         la colonne doit avoir la bonne dimension
         pos est par défaut un entier grand arbitraire pour ajouter la colonne au bout par défaut"""
-        self.colonnes = self.colonnes[:pos]+[nomcol]+self.colonnes[pos:]
+        self.colonnes = self.colonnes[:pos-1]+[nomcol]+self.colonnes[pos-1:]
         if len(col) != len(self.contenu):
             print('pas la même taille')
 
@@ -41,3 +41,4 @@ class Table :
             self.contenu = self.contenu[:pos-1]+self.contenu[pos:]
         if pos == -1 :
             self.contenu = self.contenu[:pos]
+
