@@ -1,13 +1,13 @@
 from EstimateurAbstraite import EstimateurAbstraite
 
-class EstimateurMoyenne():
+class EstimateurMoyenne(EstimateurAbstraite):
 
     @staticmethod
     def moyenne (table,nom_col):
         indice=table.colonnes.index(nom_col)
         nb_obs=len(table.contenu)
         moy=0
-        for ligne in range nb_obs:
+       for ligne in range nb_obs:
             moy+=table.contenu[ligne][indice]
         return(moy/nb_obs)
 

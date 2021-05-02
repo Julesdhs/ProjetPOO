@@ -26,4 +26,3 @@ tt.ajoutcol('ajout',[1,2,3],2)
 tt.enlevcol()
 tt.ajoutlig(['a','a1','a2','a3','a4'])
 tt.enlevlig(1)
-g='test'

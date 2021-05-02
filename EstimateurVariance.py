@@ -1,6 +1,6 @@
 from EstimateurAbstraite import EstimateurAbstraite
 
-class EstimateurVariance:
+class EstimateurVariance(EstimateurAbstraite):
    
     @staticmethod
     def variance (table,nom_col):

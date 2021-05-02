@@ -1,5 +1,5 @@
+from Table import Table
 from abc import ABC, abstractmethod
-from EstimateurAbstraite import EstimateurAbstraite
 
 class OperationAbstraite(ABC):
     @abstractmethod
