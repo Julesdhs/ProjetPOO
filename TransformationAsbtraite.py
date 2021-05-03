@@ -5,6 +5,7 @@ class TransformationAbstraite(OpérationAbstraite):
       @abstractmethod
       def process(table):
           transform(table)
+          return(table)
 
       @asbtractmethod
       def transform(table):
