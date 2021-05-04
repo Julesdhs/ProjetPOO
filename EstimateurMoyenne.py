@@ -7,7 +7,7 @@ class EstimateurMoyenne(EstimateurAbstraite):
         indice=table.colonnes.index(nom_col)
         nb_obs=len(table.contenu)
         moy=0
-       for ligne in range nb_obs:
+        for ligne in range(nb_obs):
             moy+=table.contenu[ligne][indice]
         return(moy/nb_obs)
 
