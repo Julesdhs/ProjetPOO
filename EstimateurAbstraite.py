@@ -1,8 +1,8 @@
-from OperationAbstraite import OperationAbstraite
+#from OperationAbstraite import OperationAbstraite
 from abc import ABC, abstractmethod
 
 class EstimateurAbstraite(ABC):
-   
+
     @abstractmethod
     def fit(self,table):
         pass
@@ -10,3 +10,4 @@ class EstimateurAbstraite(ABC):
     def process(self,table):
         fit(self,table)
 
+#testé 05/05 14h

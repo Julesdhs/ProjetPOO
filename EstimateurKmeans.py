@@ -1,6 +1,9 @@
 import random
 
-class EstimateurKmeans ():
+class EstimateurKmeans(EstimateurAbstraite):
+    def __init__(self,k):
+        self.k = k
+
     def calcul_centres(classes,centres,k,nbvar):
             for i in range(k):
                 cent=[0 for m in range(nbvar)]
@@ -20,6 +23,7 @@ class EstimateurKmeans ():
         return(d**(1/2))
 
     def Kmeans (table,k):
+        TransformationNormalisation.transform(table)
         nbvar=len(table.colonnes)
         nb_obs=len(table.contenu)
         centres=[[int(random.random()*10) for j in range(nbvar)] for i in range(k)]
@@ -28,7 +32,7 @@ class EstimateurKmeans ():
         nb=0
         for i in range(k):
             classes[i].append(centres[i])
-        while classes != classes2 and nb<1:
+        while classes != classes2 and nb<200:
             nb+=1
             classes2=classes
             for j in range (nb_obs):
@@ -40,6 +44,6 @@ class EstimateurKmeans ():
                         d=dc
                 classes[indice].append(table.contenu[j])
         EstimateurKmeans.calcul_centres(classes,centres,k,nbvar)
-        return(centres)
+        return(centres,classes)
 
-
+#testé 05/05 14h

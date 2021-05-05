@@ -19,7 +19,7 @@ class Table :
     def enlevcol(self,pos=-1):
         """
         par défaut on enlève la 1ère
-        """ 
+        """
         if pos != -1 :
             self.colonnes = self.colonnes[:pos-1]
             for k in range(len(self.contenu)):
@@ -42,3 +42,4 @@ class Table :
         if pos == -1 :
             self.contenu = self.contenu[:pos]
 
+#testé 05/05 14h

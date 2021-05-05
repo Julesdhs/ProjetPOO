@@ -1,12 +1,13 @@
-from TransformationAsbtraite import TransformationAbstraite
+#from TransformationAsbtraite import TransformationAbstraite
 
 class TransformationCentrage(TransformationAbstraite):
+
     def transform(table):
         for i in range(len(table.colonnes)):
-            moy = moyenne(table,table.colonnes(i))
-            for j in table.contenu :
-                j[i]= j[i] - moy
+            moy = EstimateurMoyenne.moyenne(table,table.colonnes[i])
+            for j in range(len(table.contenu)) :
+                table.contenu[j][i] = table.contenu[j][i] - moy
 
-
+#testé 05/05 14h
 
 

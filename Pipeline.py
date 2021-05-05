@@ -4,14 +4,20 @@ Created on Mon May  3 15:52:10 2021
 
 @author: id1846
 """
-from OperationAbstraite import OperationAbstraite
+#from OperationAbstraite import OperationAbstraite
 
 class Pipeline():
-    def __init__(self,process=[]) :
-        self.process = process
-    
-    def ajout_etape(self,table,operation):
-        self.process.append((table,operation))
-    
+    def __init__(self,table,pile=[]) :
+        self.process = pile
+        self.table = table
+
+    def ajout_etape(self,operation):
+        self.process.append(operation)
+
     def applique(self):
-        for 
+        j=0
+        for k in range(len(self.pile)):
+            if len(self.pile) != 0 :
+                self.pile[k-j].process(self.table)
+                del self.pile[0]
+                j+=1
