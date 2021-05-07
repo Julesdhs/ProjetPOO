@@ -1,9 +1,7 @@
-#from Table import Table
+from Table import table
 from abc import ABC, abstractmethod
 
 class OperationAbstraite(ABC):
     @abstractmethod
     def process(table):
         pass
-
-#testé 05/05 14h
