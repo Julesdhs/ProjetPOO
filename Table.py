@@ -48,8 +48,7 @@ class Table :
 
         with open(nom, 'w') as f:
 
-            write = csv.writer(f)
-
+            write = csv.writer(f, delimiter = ',')
             write.writerow(self.colonnes)
             write.writerows(self.contenu)
 

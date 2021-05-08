@@ -1,8 +1,13 @@
+import os
+
+
 folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données/"
 filename = "covid-hospit-incid-reg-2021-03-03-17h20.csv"
 
+os.chdir(folder)
+
 t=Import.cree(folder,filename)
-t.export('test')
+t.export('test3.csv')
 
 tb=Table()
 tt=Table(['test','test','test','test','test'],[['a','a1','a2','a3','a4'],['b','a','a','a','a'],['c','a','a','a','a']])
@@ -18,4 +23,3 @@ tj2=Table(['t1','t22','t33','t3'],[[1,10,13,7],[20,11,14,8],[3,12,15,9]])
 #TransformationNormalisation.transform(kme)
 jointu=TransformationJointure(tj2,'t1')
 tjj=TransformationJointure.transform(jointu,tj)
-
