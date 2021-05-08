@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
-class TransformationAbstraite(OpérationAbstraite):
+class TransformationAbstraite(OperationAbstraite):
       def process(self,table):
           transform(table)
           return(table)
 
-      @asbtractmethod
+      @abstractmethod
       def transform(self,table):
           pass
 

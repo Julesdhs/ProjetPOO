@@ -1,4 +1,4 @@
-from Table import Table
+#from Table import Table
 
 class TransformationJointure(TransformationAbstraite):
     def __init__(self,table,nomcol):
@@ -11,24 +11,24 @@ class TransformationJointure(TransformationAbstraite):
         for ligne in table.contenu:
             colonne_extraite.append(ligne[indice])
         return(Table([nomcol],colonne_extraite))
-        
+
     def extrait_table(nomcol,table):
         return([TransformationJointure.extrait_colonne(table,nomcol)]+[TransformationJointure.extrait_colonne(table,table.colonnes[k]) for k in range(len(table.colonnes)) if (table.colonnes[k] != nomcol)])
-    
+
     def prepare(self,table1,table2):
         t1=TransformationJointure.extrait_table(self.nomcol,table1)
         t2=TransformationJointure.extrait_table(self.nomcol,table2)
         return(t1,t2)
-        
+
     def transform(self,table2):
         (t1,t2)=prepare(self,self.table,table2)
         for val in t1[0].contenu :
-            if val in t2[0].contenu : 
+            if val in t2[0].contenu :
                 indiceval=t1[0].contenu.index(val)
-                for k in range(len(t1):
-                    t1[0][indiceval]
-                    
-                
+                for k in range(len(t1)-1):
+                    t1[0].contenu[indiceval].append()
+
+
     def transform(self):
         nb_obs_table1=len(self.table1)
         nb_obs_table2=len(self.table2)
