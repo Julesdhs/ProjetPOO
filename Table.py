@@ -1,3 +1,5 @@
+import csv as csv
+
 class Table :
     def __init__(self,colonnes=[],contenu=[[]]) :
         self.colonnes = colonnes
@@ -41,5 +43,14 @@ class Table :
             self.contenu = self.contenu[:pos-1]+self.contenu[pos:]
         if pos == -1 :
             self.contenu = self.contenu[:pos]
+
+    def export(self,nom):
+
+        with open(nom, 'w') as f:
+
+            write = csv.writer(f)
+
+            write.writerow(self.colonnes)
+            write.writerows(self.contenu)
 
 #testé 05/05 14h
