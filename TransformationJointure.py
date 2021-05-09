@@ -25,15 +25,16 @@ class TransformationJointure(TransformationAbstraite):
     def prepare(self,table1,table2):
         t1=TransformationJointure.extrait_table(self.nomcol,table1)
         t2=TransformationJointure.extrait_table(self.nomcol,table2)
-        for col in t1 :
-            if col in t2 :
-                del t2[t2.contenu.index(col)]
         return t1,t2
 
     def transform(self,table2,gauche=True):
         TransformationJointure.delcol(self.nomcol,table2,self.table)
         (t2,t1)=TransformationJointure.prepare(self,self.table,table2)
         tj=Table([t1[0].colonnes[0]],[[t1[0].contenu[k][0]] for k in range(len(t1[0].contenu))])
+        for k in range(len(t1)-1):
+            tj.colonnes.append(t1[k+1].colonnes[0])
+        for k in range(len(t2)-1):
+            tj.colonnes.append(t2[k+1].colonnes[0])
         for val in t1[0].contenu :
             if val in t2[0].contenu :
                 '''si la valeur est dans la 2e table on ajoute tout le reste'''
@@ -57,7 +58,6 @@ class TransformationJointure(TransformationAbstraite):
 
                     for k in range(len(t2)-1):
                         tj.contenu[indiceval].append(0)
-
         return tj
 
 
