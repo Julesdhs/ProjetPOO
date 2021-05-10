@@ -5,7 +5,7 @@ class Table :
         self.colonnes = colonnes
         self.contenu = contenu
 
-    def ajoutcol(self,nomcol,col,pos=9999):
+    def ajoutcol(self,nomcol,col,pos=99999):
         """
         /!\ position est ici utilisé comme "premier" ou "deuxième" en partant du début (indice dans la liste +1)
         la colonne doit avoir la bonne dimension
@@ -36,7 +36,7 @@ class Table :
         if pos != -1 :
             self.contenu = self.contenu[:pos]+[ligne]+self.contenu[pos:]
         if pos == -1 :
-            self.contenu = self.contenu[:9999]+[ligne]
+            self.contenu = self.contenu[:99999]+[ligne]
 
     def enlevlig(self,pos=-1):
         if pos != -1 :
