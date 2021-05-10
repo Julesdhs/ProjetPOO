@@ -8,6 +8,6 @@ class EstimateurAbstraite(ABC):
         pass
 
     def process(self,table):
-        fit(self,table)
+        return(self.fit(table))
 
 #testé 05/05 14h

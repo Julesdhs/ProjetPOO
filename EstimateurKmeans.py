@@ -22,7 +22,8 @@ class EstimateurKmeans(EstimateurAbstraite):
             d+=(a[i]-b[i])**2
         return(d**(1/2))
 
-    def Kmeans (table,k):
+    def Kmeans(self,table):
+        k=self.k
         TransformationNormalisation.transform(table)
         nbvar=len(table.colonnes)
         nb_obs=len(table.contenu)

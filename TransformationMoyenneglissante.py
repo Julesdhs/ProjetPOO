@@ -32,7 +32,7 @@ class TransformationMoyenneglissante(TransformationAbstraite):
                     la moyenne glissante
         """
         liste_tables=tables_par_modalites(self.nomcolonnes,table)
-        for table in liste_tables
+        for table in liste_tables :
             longueurtable=len(table)
             for ligne in range (longueurtable-self.periode):
                 for colonne in table.nomcolonnes:
@@ -40,13 +40,12 @@ class TransformationMoyenneglissante(TransformationAbstraite):
                     table.ajoutcol('Moyenne_glissante sur {} jours'.format(self.periode))
         return(liste_tables)
 
-
     def selection_modalite(nomcol,modalite,table):
          indice=table.colonnes.index(nomcol)
-          nb_obs=len(table.contenu)
+         nb_obs=len(table.contenu)
          for ligne in range (nb_obs):
-            if  table.contenu[ligne][indice]!=modalite:
-                  table.enlevlig(self,ligne)
+             if  table.contenu[ligne][indice]!=modalite:
+                 table.enlevlig(self,ligne)
 
 
     def tables_par_modalites(liste_col,table):

@@ -1,4 +1,5 @@
-#from EstimateurAbstraite import EstimateurAbstraite
+from EstimateurAbstraite import EstimateurAbstraite
+from Table import Table
 
 class EstimateurMoyenne(EstimateurAbstraite):
 
@@ -11,12 +12,13 @@ class EstimateurMoyenne(EstimateurAbstraite):
         nb_obs=len(table.contenu)
         moy=0
         for ligne in range(nb_obs):
-            moy+=table.contenu[ligne][indice]
+            moy+=int(table.contenu[ligne][indice])    
         return(moy/nb_obs)
 
-    def fit(table):
-        table_resultat=Table()
-        table_resultat.ajoutcol("moyenne de" + nom_col, [table.moyenne(nom_col)])
+    def fit(self,table):
+        table_resultat=Table().copy()
+        table_resultat.ajoutcol("moyenne de" + self.nom_col, [EstimateurMoyenne.moyenne(table,self.nom_col)])
         return(table_resultat)
-
+        return Table(["moyenne de" + self.nom_col],[EstimateurMoyenne.moyenne(table,self.nom_col)])
+        
 #testé 05/05 14h
