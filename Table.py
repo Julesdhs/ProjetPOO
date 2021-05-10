@@ -23,9 +23,9 @@ class Table(object) :
         par défaut on enlève la 1ère
         """
         if pos != -1 :
-            self.colonnes = self.colonnes[:pos] + self.colonnes[pos+1:]
+            self.colonnes = self.colonnes[:pos-1] + self.colonnes[pos:]
             for k in range(len(self.contenu)):
-                self.contenu[k] = self.contenu[k][:pos]+self.contenu[k][pos+1:]
+                self.contenu[k] = self.contenu[k][:pos-1]+self.contenu[k][pos:]
         if pos == -1 :
             self.colonnes = self.colonnes[:pos]
             for k in range(len(self.contenu)):
