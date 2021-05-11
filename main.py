@@ -1,7 +1,7 @@
 import os
 
 
-folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données"
+folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données/"
 filename = "covid-hospit-incid-reg-2021-03-03-17h20.csv"
 
 os.chdir(folder)

@@ -18,6 +18,7 @@ class EstimateurMoyenne(EstimateurAbstraite):
     def fit(self,table):
         table_resultat=Table()
         table_resultat.ajoutcol("moyenne de" + self.nom_col, [EstimateurMoyenne.moyenne(table,self.nom_col)])
+        print([EstimateurMoyenne.moyenne(table,self.nom_col)])
         return(table_resultat)
 
 

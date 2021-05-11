@@ -21,3 +21,4 @@ class Pipeline():
                 self.pile[k-j].process(self.table)
                 del self.pile[0]
                 j+=1
+        return(self.table)

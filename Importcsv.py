@@ -1,9 +1,10 @@
 import csv as csv
+import json
 
 class Import():
 
     @staticmethod
-    def cree(fichier,nom):
+    def creecsv(fichier,nom):
         data = []
 
         with open(fichier + nom, encoding ='ISO-8859-1') as csvfile :
@@ -13,3 +14,10 @@ class Import():
 
         return(Table(data[0], [data[k] for k in range(1,len(data))]))
 
+    def creejson(fichier,nom):
+
+
+        with open(folder + filename) as json_file :
+            data = json.load(json_file)
+
+        return(Table(data[0], [data[k] for k in range(1,len(data))]))
