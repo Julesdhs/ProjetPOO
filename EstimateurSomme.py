@@ -1,6 +1,7 @@
+from EstimateurAbstraite import EstimateurAbstraite
 from Table import Table
 
-class EstimateurSomme():
+class EstimateurSomme(EstimateurAbstraite):
     def __init__(self,nom_col):
         self.nom_col=nom_col
     
@@ -16,4 +17,3 @@ class EstimateurSomme():
     def fit(self, table):
         res=Table(["somme de " + self.nom_col],  [EstimateurSomme.somme(table, self.nom_col)])
         return(res)
-        #        print((res.colonnes,res.contenu))
