@@ -1,7 +1,12 @@
 import csv as csv
 
 class Table(object) :
-    def __init__(self,colonnes=[],contenu=[[]]) :
+
+    def __init__(self, colonnes=None, contenu=None):
+        if contenu is None:
+            contenu = [[]]
+        if colonnes is None:
+            colonnes = []
         self.colonnes = colonnes
         self.contenu = contenu
 
@@ -44,14 +49,6 @@ class Table(object) :
         if pos == -1 :
             self.contenu = self.contenu[:pos]
 
-    def stringtoint(self,nomvar):
-        ind = self.colonnes.index(nomvar)
-        n = len(self.contenu)
-        for i in range(n):
-            self.contenu[i][ind]=int(self.contenu[i][ind])
-
-
-
     def export(self,nom):
 
         with open(nom, 'w') as f:
@@ -59,5 +56,11 @@ class Table(object) :
             write = csv.writer(f, delimiter = ',')
             write.writerow(self.colonnes)
             write.writerows(self.contenu)
+
+    def stringtoint(self,nomvar):
+        ind = self.colonnes.index(nomvar)
+        n = len(self.contenu)
+        for i in range(n):
+            self.contenu[i][ind]=int(self.contenu[i][ind])
 
 #testé 05/05 14h
