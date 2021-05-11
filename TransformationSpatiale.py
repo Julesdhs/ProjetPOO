@@ -11,17 +11,13 @@ class TransformationSpatiale(TransformationAbstraite):
       L'espace final sera un entier, soit 1 ou 2 pour l'agrégation respective régionale ou nationale'''
 
       def __init__(self,espace_final,espace_depart=2):
-            '''if 'dep' in table.colonnes :
-                  espace_depart = 0
-            if 'numreg' or 'reg' in table.colonnes :
-                  espace_depart = 1'''
             self.espace_depart = espace_depart
             self.espace_final = espace_final
 
       def transform(self,table):
             ''' on crée un dictionnaire des régions composées de leurs départements ; les régions sont ici les numéros que l'on retrouve dans les variables numreg '''
 
-            dic = {1:['971'],2:['972'],3:['973'],4:['974'],6:['976'],11:['75','77','78','91','92','93','94','95'],24:['18','28','36','37','41','45'],27:['21','25','39','58','70','71','89','90'],28:['14','27','50','61','76'],32:['2','59','60','62','80'],44:['8','10','51','52','54','55','57','67','68','88'],52:['44','49','53','72','85'],53:['22','29','35','56'],75:['16','17','19','23','24','33','40','47','64','79','86','87'],76:['9','11','12','30','31','32','34','46','48','65','66','81','82'],84:['1','3','7','15','26','38','42','43','63','69','73','74'], 93:['4','5','6','13','83','84'],94:['2A','2B']}
+            dic = {'Guadeloupe':['971'],'Martinique':['972'],'Guyane':['973'],'La Réunion':['974'],'Mayotte':['976'],'Île-de-france':['75','77','78','91','92','93','94','95'],'Centre Val de Loire':['18','28','36','37','41','45'],'Bourgogne-Franche-Compté':['21','25','39','58','70','71','89','90'],'Normandie':['14','27','50','61','76'],'Picardie':['2','59','60','62','80'],'Grand Est':['8','10','51','52','54','55','57','67','68','88'],'Loire-Atlantique':['44','49','53','72','85'],'Bretagne':['22','29','35','56'],'Nouvelle-Aquitaine':['16','17','19','23','24','33','40','47','64','79','86','87'],'Occitanie':['9','11','12','30','31','32','34','46','48','65','66','81','82'],'Auvergne-Rhône-Alpes':['1','3','7','15','26','38','42','43','63','69','73','74'], 'Provence-Alpes-Côte dazur':['4','5','6','13','83','84'],'Corse':['2A','2B']}
 
             ''' premier cas : l'espace de départ possède une granularité départementale ; on va passer à une granularité régionale
            La variable jour est présente dans toutes les données, mais aussi il y a la variable sexe dans certaines '''
@@ -75,7 +71,7 @@ class TransformationSpatiale(TransformationAbstraite):
                               newt = Table()
                               newt.colonnes = table.colonnes
                               newt.colonnes[inddep]= 'reg'
-                              nbjours = len(table.contenu)//100
+                              nbjours = len(table.contenu)//101
                               for c in range(nbjours):
                                     jour = table.contenu[101*c][indjour]
                                     for j in dic.items():
@@ -83,27 +79,28 @@ class TransformationSpatiale(TransformationAbstraite):
                                           ligne[inddep]=j[0]
                                           ligne[indjour]= jour
                                           departements = j[1]
-                                    for i in range(100):
-                                          if table.contenu[101*c + i][inddep] in departements:
-                                                for j in range(len(var)):
-                                                      if j!= inddep and j!= indjour :
-                                                            ligne[j]+= table.contenu[101*c + i][j]
-                                    newt.ajoutlig(ligne)
+                                          for i in range(101):
+                                                if table.contenu[101*c + i][inddep] in departements:
+                                                      for j in range(len(var)):
+                                                            if j!= inddep and j!= indjour :
+                                                                ligne[j]+= table.contenu[101*c + i][j]
+                                          print(ligne)
+                                          newt.ajoutlig(ligne)
                               table.colonnes = newt.colonnes
                               table.contenu = newt.contenu
                   if self.espace_final == 2:
                         ''' le code est le même que celui précédent juste que l'on va maintenant rajouter le passage de newt à un tableau à granularité nationale (ou on somme tout en quelque sorte) '''
                         var = table.colonnes
-                        if sexe in var :
+                        if 'sexe' in var :
                               indsexe =  table.colonnes.index('sexe')
                               inddep  =  table.colonnes.index('dep')
                               indjour =  table.colonnes.index('jour')
                               newt = Table()
                               newt.colonnes = table.colonnes
                               newt.colonnes[inddep] = 'reg'
-                              nbjours = len(table.contenu)//3
+                              nbjours = len(table.contenu)//303
                               for c in range(nbjours):
-                                    jour = table.contenu[300*c][indjour]
+                                    jour = table.contenu[303*c][indjour]
                                     for j in dic.items():
                                           ligne0 = [0 for k in range(len(var))]
                                           ligne1 = [0 for k in range(len(var))]
@@ -121,12 +118,12 @@ class TransformationSpatiale(TransformationAbstraite):
                                           if table.contenu[300*c + i][inddep] in departements:
                                                 for v in range(len(var)):
                                                       if (v!= inddep and v!= indjour and v!= indsexe) :
-                                                            if table.contenu[300*c + i][indsexe] == '0':
-                                                                  ligne0[v]+= table.contenu[300*c + i][v]
-                                                            elif table.contenu[300*c + i][indsexe] == '1':
-                                                                  ligne1[v]+= table.contenu[300*c + i][v]
-                                                            elif table.contenu[300*c + i][indsexe] == '2':
-                                                                  ligne2[v]+= table.contenu[300*c + i][v]
+                                                            if table.contenu[303*c + i][indsexe] == '0':
+                                                                  ligne0[v]+= table.contenu[303*c + i][v]
+                                                            elif table.contenu[303*c + i][indsexe] == '1':
+                                                                  ligne1[v]+= table.contenu[303*c + i][v]
+                                                            elif table.contenu[303*c + i][indsexe] == '2':
+                                                                  ligne2[v]+= table.contenu[303*c + i][v]
                                     newt.ajoutlig(ligne0)
                                     newt.ajoutlig(ligne1)
                                     newt.ajoutlig(ligne2)
@@ -179,21 +176,26 @@ class TransformationSpatiale(TransformationAbstraite):
                                           ligne[inddep]=j[0]
                                           ligne[indjour]= jour
                                           departements = j[1]
-                                    for i in range(101):
-                                          if table.contenu[101*c + i][inddep] in departements:
-                                                for v in range(len(var)):
-                                                      if v!= inddep and v!= indjour :
-                                                            ligne[v]+= table.contenu[101*c + i][v]
-                                    newt.ajoutlig(ligne)
+                                          for i in range(101):
+                                                if table.contenu[101*c + i][inddep] in departements:
+                                                      for j in range(len(var)):
+                                                            if j!= inddep and j!= indjour :
+                                                                ligne[j]+= table.contenu[101*c + i][j]
+                                          newt.ajoutlig(ligne)
+                              table.colonnes = newt.colonnes
+                              table.contenu = newt.contenu
 
                               nbjours = len(newt.contenu)//18
+                              print(nbjours)
                               newt2 = Table()
-                              newt2.colonnes = table.colonnes
+                              newt2.colonnes = newt.colonnes
                               indreg  =  newt.colonnes.index('reg')
-                              newt2.colonnes[indreg] = nat
+                              newt2.colonnes[indreg] = 'France'
+                              newt2.colonnes[indreg] = 'France'
                               indjour =  newt.colonnes.index('jour')
-                              for c in range(nbjours):
-                                    jour = newt2.contenu[18*c][indjour]
+                              for p in range(nbjours):
+                                    print(p)
+                                    jour = newt.contenu[18*p][indjour]
                                     ligne = [0 for k in range(len(table.colonnes))]
                                     ligne[indjour] = jour
                                     ligne[indreg] = 'France'
@@ -205,6 +207,7 @@ class TransformationSpatiale(TransformationAbstraite):
                               table.colonnes = newt2.colonnes
                               table.contenu = newt2.contenu
             else:
+                  ''' ici c'est le cas où nous commençons d'une granularité régionale pour aller à une nationale, on regarde d'abord si la variable classe d'âge est présente pour séparer en fonction de ses modalités'''
                   if self.espace_depart == 1:
                         if self.espace_final == 2:
                               var = table.colonnes
