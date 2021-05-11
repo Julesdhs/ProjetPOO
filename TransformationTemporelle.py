@@ -1,3 +1,4 @@
+from TransformationAbstraite import TransformationAbstraite
 
 class TransformationTemporelle(TransformationAbstraite):
     def __init__(self,debut_periode,fin_periode):
@@ -23,8 +24,6 @@ class TransformationTemporelle(TransformationAbstraite):
             l+=1
             x = table.contenu[l][ind]
         table.contenu = newt.contenu
-
-
 
 
 
