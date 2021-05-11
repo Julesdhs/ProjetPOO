@@ -44,6 +44,14 @@ class Table(object) :
         if pos == -1 :
             self.contenu = self.contenu[:pos]
 
+    def stringtoint(self,nomvar):
+        ind = self.colonnes.index(nomvar)
+        n = len(self.contenu)
+        for i in range(n):
+            self.contenu[i][ind]=int(self.contenu[i][ind])
+
+
+
     def export(self,nom):
 
         with open(nom, 'w') as f:
