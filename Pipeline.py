@@ -8,11 +8,11 @@ Created on Mon May  3 15:52:10 2021
 
 class Pipeline():
     def __init__(self,table,pile=[]) :
-        self.process = pile
+        self.pile = pile
         self.table = table
 
     def ajout_etape(self,operation):
-        self.process.append(operation)
+        self.pile.append(operation)
 
     def applique(self):
         j=0
