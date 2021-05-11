@@ -1,7 +1,12 @@
 import csv as csv
 
 class Table(object) :
-    def __init__(self,colonnes=[],contenu=[[]]) :
+
+    def __init__(self, colonnes=None, contenu=None):
+        if contenu is None:
+            contenu = [[]]
+        if colonnes is None:
+            colonnes = []
         self.colonnes = colonnes
         self.contenu = contenu
 

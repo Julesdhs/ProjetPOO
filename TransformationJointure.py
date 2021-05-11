@@ -16,10 +16,10 @@ class TransformationJointure(TransformationAbstraite):
         return([TransformationJointure.extrait_colonne(table,nomcol)]+[TransformationJointure.extrait_colonne(table,table.colonnes[k]) for k in range(len(table.colonnes)) if (table.colonnes[k] != nomcol)])
 
     def delcol(clef,table1,table2):
-        for nomcol in table1.colonnes :
+        for nomcol in table2.colonnes :
             if nomcol != clef :
-                if nomcol in table2.colonnes:
-                    Table.enlevcol(table2,table2.colonnes.index(nomcol))
+                if nomcol in table1.colonnes:
+                    Table.enlevcol(table2,table2.colonnes.index(nomcol)+1)
 
 
     def prepare(self,table1,table2):
