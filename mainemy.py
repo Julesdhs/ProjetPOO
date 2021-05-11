@@ -14,13 +14,10 @@ a = EstimateurSomme('hosp')
 EstimateurSomme.somme(t,'hosp')
 res=a.fit(t)
 
-
 folder = "P:/PTD/Donnees/Données/"
 filename = "donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv"
 table=Import.cree(folder,filename)
-Question1=Pipeline(table)
-Question1.ajout_etape(EstimateurSomme('incid_hosp'))
-print(Question1.applique()[0].contenu)
-
-Question2=Pippeline(table)
-Question2.ajout_etape()
+Question1=Pipeline()
+Question1.ajoute_etape(EstimateurSomme('incid_hosp'))
+res=Question1.run(table)
+print(res.contenu)
