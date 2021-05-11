@@ -57,4 +57,10 @@ class Table(object) :
             write.writerow(self.colonnes)
             write.writerows(self.contenu)
 
+    def stringtoint(self,nomvar):
+        ind = self.colonnes.index(nomvar)
+        n = len(self.contenu)
+        for i in range(n):
+            self.contenu[i][ind]=int(self.contenu[i][ind])
+
 #testé 05/05 14h
