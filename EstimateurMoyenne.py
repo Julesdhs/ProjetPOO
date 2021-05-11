@@ -20,5 +20,4 @@ class EstimateurMoyenne(EstimateurAbstraite):
         table_resultat.ajoutcol("moyenne de" + self.nom_col, [EstimateurMoyenne.moyenne(table,self.nom_col)])
         return(table_resultat)
 
-
 #testé 05/05 14h

@@ -1,19 +1,21 @@
 import os
 
-
 folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données/"
 filename = "covid-hospit-incid-reg-2021-03-03-17h20.csv"
 
 os.chdir(folder)
 
-t=Import.cree(folder,filename)
-
+t=Import.creecsv(folder,filename)
+txt=Import.creejson(folder,"VacancesScolaires.json")
+print(txt[0].contenu[0])
 t.export('test3.csv')
 
 P1=Pipeline(t)
 P1.ajout_etape(EstimateurMoyenne('incid_rea'))
 P1.applique()
-'''
+
+def g():
+    '''
 m=EstimateurMoyenne('incid_rea')
 print(m.process(t).contenu[0])
 

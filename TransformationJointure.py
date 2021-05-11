@@ -1,6 +1,7 @@
 #from Table import Table
 
 class TransformationJointure(TransformationAbstraite):
+
     def __init__(self,table,nomcol):
         self.table = table
         self.nomcol = nomcol
@@ -18,7 +19,7 @@ class TransformationJointure(TransformationAbstraite):
     def delcol(clef,table1,table2):
         for nomcol in table2.colonnes :
             if nomcol != clef :
-                if nomcol in table1.colonnes:
+                if nomcol in table2.colonnes:
                     Table.enlevcol(table2,table2.colonnes.index(nomcol)+1)
 
 

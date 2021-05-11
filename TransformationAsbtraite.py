@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 class TransformationAbstraite(OperationAbstraite):
+
       def process(self,table):
           transform(table)
           return(table)

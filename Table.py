@@ -50,7 +50,6 @@ class Table(object) :
             self.contenu = self.contenu[:pos]
 
     def export(self,nom):
-
         with open(nom, 'w') as f:
 
             write = csv.writer(f, delimiter = ',')
