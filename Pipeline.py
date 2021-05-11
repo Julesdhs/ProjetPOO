@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May  3 15:52:10 2021
-
-@author: id1846
-"""
 #from OperationAbstraite import OperationAbstraite
 
 class Pipeline():
