@@ -1,10 +1,12 @@
 from TransformationAbstraite import TransformationAbstraite
+from EstimateurMoyenne import EstimateurMoyenne
 
-class TransformationMoyenneglissante(TransformationAbstraite):
+class TransformationMoyenneglissante():
     def __init__(self,periode,nomcolonnes):
         self.periode=periode
         self.nomcolonnes=nomcolonnes
     
+
     def transform(self,table):
         ''' pq on a code, paramètre, but de la fonction, resultat'''
         """
@@ -31,36 +33,50 @@ class TransformationMoyenneglissante(TransformationAbstraite):
                     à plusieurs modalités dans la table de départ) auquel on a ajouté une colonne contenant
                     la moyenne glissante
         """
+        # Etape 1 : Créer différentes tables suivant les modalités des variables qualitatives (ex: ) d'où la création de selection-modalite() et tables_par_modalites()
+        def selection_modalite(nomcol,modalite,table):
+             indice=table.colonnes.index(nomcol)
+             nb_obs=len(table.contenu)
+             for ligne in range (nb_obs):
+                if  table.contenu[ligne][indice]!=modalite:
+                      table.enlevlig(ligne)
+    
+    
+        def tables_par_modalites(liste_col,table):
+            for col in liste_col:
+                indice = table.colonnes.index(col)
+                liste_modalites=[]
+                nb_obs=len(table.contenu)
+                for ligne in range(nb_obs):
+                    if table.contenu[ligne][indice] not in liste_modalites:
+                        liste_modalites.append(table.contenu[ligne][indice])
+                liste_tables=[]
+                for modalite in liste_modalites:
+                    copie_table=table
+                    a=selection_modalite(col,modalite,copie_table)
+                    liste_tables.append(a)
+            return(liste_tables)
+    
+    
+        def fusionne_tables(liste_tables):
+            table_fusionnee=liste_tables[0]
+            for table in liste_tables[1:]:
+                for ligne in table:
+                    table_fusionnee.ajoutlig(ligne)
+            return(table_fusionnee)
+
+        # Etape 2: Pour chaque table et chaque colonne sur lesquels on veut avoir la moyenne glissante on l'a fait et on l'ajoute dans notre table
         liste_tables=tables_par_modalites(self.nomcolonnes,table)
-        for table in liste_tables :
+        for table in liste_tables:
             longueurtable=len(table)
             for ligne in range (longueurtable-self.periode):
-                for colonne in table.nomcolonnes:
-                    moyenne=EstimateurMoyenne.moyenne(table[ligne:ligne+self.periode-1],colonne)
-                    table.ajoutcol('Moyenne_glissante sur {} jours'.format(self.periode))
-        return(liste_tables)
-
-    def selection_modalite(nomcol,modalite,table):
-         indice=table.colonnes.index(nomcol)
-         nb_obs=len(table.contenu)
-         for ligne in range (nb_obs):
-             if  table.contenu[ligne][indice]!=modalite:
-                 table.enlevlig(self,ligne)
-
-
-    def tables_par_modalites(liste_col,table):
-        for col in liste_col:
-            indice = table.colonnes.index(col)
-            liste_modalites=[]
-            nb_obs=len(table.contenu)
-            for ligne in range(nb_obs):
-                if table.contenu[ligne][indice] not in liste_modalites:
-                    liste_modalites.append(table.contenu[ligne][indice])
-            liste_tables=[]
-            for modalite in liste_modalites:
-                copie_table=table
-                liste_tables.append(selection_modalite(col,modalite,copie_table))
-        return(liste_tables)
+                moyenneglissante=[None for k in range(self.periode-1)]
+                for nomcol in table.nomcolonnes:
+                    moyenne=EstimateurMoyenne.moyenne(table[ligne:ligne+self.periode-1],nomcol)
+                    moyenneglissante.append(moyenne)
+                    table.ajoutcol('Moyenne_glissante sur {} jours de {}'.format(self.periode,nomcol),moyenne)
+        # Etape 3: On fusionne les différentes tables afin de retourner une seule et unique table  
+        return(fusionne_tables(liste_tables))
 
 
 
