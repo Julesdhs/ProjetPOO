@@ -1,6 +1,7 @@
 #from TransformationAsbtraite import TransformationAbstraite
 
 class TransformationCentrage(TransformationAbstraite):
+
     def __init__(self,listcol):
         self.listcol = listcol
 

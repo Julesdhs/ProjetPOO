@@ -9,13 +9,17 @@ class EstimateurKmeans(EstimateurAbstraite):
     def calcul_centres(table,centres,k,nbvar,indclasse):
         '''calcule le barycentre des classes'''
         for i in range(k):
+            nbelem = 0
             cent=[0 for m in range(nbvar)]
             for c in range(len(table.contenu)):
                 if table.contenu[c][indclasse] == i :
+                    nbelem += 1
                     for p in range(nbvar):
                         cent[p]+=table.contenu[c][p]
             for p in range(nbvar):
-                cent[p]=cent[p]/nbelem
+                if nbelem != 0 :
+                    cent = [int(random.random()*10) for j in range(nbvar)]
+                    cent[p]=cent[p]/nbelem
             centres[i]=cent
 
     def distance(a,b,nbvar):
@@ -35,7 +39,7 @@ class EstimateurKmeans(EstimateurAbstraite):
 
     def arrange_ordre(table,listcol):
         '''change l'ordre des colonnes en mettant les colonnes de la liste au début, et ajoute une colonne de zéros pour noter les classes'''
-        T=Table(['Classe'],[[0] for k in range(len(table.contenu))])
+        T=Table(['Classes'],[[0] for k in range(len(table.contenu))])
         for nomcol in listcol :
             t=EstimateurKmeans.extrait_colonne(table,nomcol)
             Table.ajoutcol(T,t[0],t[1],1)
@@ -51,11 +55,12 @@ class EstimateurKmeans(EstimateurAbstraite):
         k=self.k
         for nomcol in self.listcol :
             table.stringtoint(nomcol)
-        TransformationNormalisation.transform(table)
+        N=TransformationNormalisation(self.listcol)
+        N.transform(table)
         nb_obs=len(table.contenu)
-        indclasse=table.index('Classes')
+        indclasse=table.colonnes.index('Classes')
         centres=[[int(random.random()*10) for j in range(nbvar)] for i in range(k)]
-        classes=extrait_colonne(table,'Classes')
+        classes=EstimateurKmeans.extrait_colonne(table,'Classes')[1]
         classes2=[[-1] for k in range(len(table.contenu))]
         nb=0
         while classes != classes2 and nb<200:
@@ -70,8 +75,9 @@ class EstimateurKmeans(EstimateurAbstraite):
                         indice=i
                         d=dc
                 table.contenu[j][indclasse] = indice
-            EstimateurKmeans.calcul_centres(table,centres,k,nbvar)
-            classes=extrait_colonne(table,'Classes')
+            EstimateurKmeans.calcul_centres(table,centres,k,nbvar,indclasse)
+            classes=EstimateurKmeans.extrait_colonne(table,'Classes')[1]
         table0.ajoutcol('Classes',classes)
+        print(classes)
 
 #testé 05/05 14h
