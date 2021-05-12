@@ -1,9 +1,7 @@
 #from TransformationAsbtraite import TransformationAbstraite
 #from TransformationCentrage import TransformationCentrage
 
-# on définit le tableau centré réduit comme la classe fille de la classe pour les tableaux centrés
-
-class TransformationNormalisation(TransformationCentrage):
+class TransformationNormalisation(TransformationAbstraite):
     ''' on définit le tableau centré réduit comme la classe fille de la classe pour les tableaux centrés '''
     def __init__(self, liste_colonnes):
         self.liste_colonnes=liste_colonnes
