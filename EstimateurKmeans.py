@@ -64,10 +64,12 @@ class EstimateurKmeans(EstimateurAbstraite):
         centres=[[int(random.random()*10) for j in range(nbvar)] for i in range(k)]
         classes=EstimateurKmeans.extrait_colonne(table,'Classes')[1]
         classes2=[[-1] for k in range(len(table.contenu))]
+
         nb=0
-        while classes != classes2 and nb<200:
+        while classes != classes2 and nb<50:
+            '''nb est un cap arbitraire pas trop grand pour éviter les boucles infinies si une observation oscille'''
             nb+=1
-            classes2=classes
+            classes2=[[classes[k]] for k in range(len(table.contenu))]
             for j in range (nb_obs):
                 d = 9999
                 indice = 0
