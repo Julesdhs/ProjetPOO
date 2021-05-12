@@ -5,7 +5,9 @@
 
 class TransformationNormalisation(TransformationCentrage):
     ''' on définit le tableau centré réduit comme la classe fille de la classe pour les tableaux centrés '''
-
+    def __init__(self, liste_colonnes):
+        self.liste_colonnes=liste_colonnes
+        
     def transform(self,table):
         TransformationCentrage.transform(table)
         for i in range(len(table.colonnes)):
