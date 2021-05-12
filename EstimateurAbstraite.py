@@ -1,5 +1,5 @@
-#from OperationAbstraite import OperationAbstraite
-#from abc import ABC, abstractmethod
+from OperationAbstraite import OperationAbstraite
+from abc import ABC, abstractmethod
 
 class EstimateurAbstraite(OperationAbstraite, ABC):
 
