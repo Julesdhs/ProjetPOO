@@ -7,7 +7,7 @@ os.chdir(folder)
 
 t=Import.creecsv(folder,filename)
 txt=Import.creejson(folder,"VacancesScolaires.json")
-print(txt[0].contenu[0])
+print(txt[0].contenu[200])
 t.export('test3.csv')
 
 P1=Pipeline(t)
@@ -40,3 +40,47 @@ tjj=TransformationJointure.transform(jointu,tj)
 
 TransformationJointure.delcol('t1',tj,tj2)
 '''
+
+#from Importcsv import Import
+#from TransformationMoyenneglissante import TransformationMoyenneglissante
+
+folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données/"
+filename = "donnees-hospitalieres-covid19-2021-03-03-17h03.csv"
+t=Import.creecsv(folder,filename)
+t.stringtoint('hosp')
+t.stringtoint('rea')
+t.stringtoint('rad')
+t.stringtoint('dc')
+
+
+#a = TransformationMoyenneglissante(7,['hosp'])
+#a.transform(t)
+
+folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données/"
+filename = "donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv"
+table=Import.creecsv(folder,filename)
+
+Question1=Pipeline(table)
+Question1.ajout_etape(EstimateurSomme('incid_hosp'))
+print(Question1.applique()[0].contenu)
+
+folder = "C:/Users/jules/Desktop/POO/PPOO/Donnees/Données/"
+filename = "donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv"
+table=Import.creecsv(folder,filename)
+
+debut_semaine1='09\10\2020'
+fin_semaine1='16\10\2020'
+debut_semaine2='16\10\2020'
+fin_semaine2='25\10\2020'
+
+# Semaine1
+Table2=Pipeline(table)
+Table2.ajout_etape(TransformationTemporelle(debut_semaine1,fin_semaine1))
+Table2.ajout_etape(EstimateurMoyenne('incid_hosp'))
+print(Table2.applique()[1].contenu)
+
+# Semaine2
+Table3=Pipeline(table)
+Table3.ajout_etape(TransformationTemporelle(debut_semaine2,fin_semaine2))
+Table3.ajout_etape(EstimateurMoyenne('incid_hosp'))
+print(Table3.applique()[1].contenu)

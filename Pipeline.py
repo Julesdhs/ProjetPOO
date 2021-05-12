@@ -1,9 +1,11 @@
 #from OperationAbstraite import OperationAbstraite
 
 class Pipeline():
-    def __init__(self,table,pile=[]) :
-        self.pile = pile
+    def __init__(self,table,pile= None) :
         self.table = table
+        if pile is None:
+            pile = []
+        self.pile = pile
 
     def ajout_etape(self,operation):
         self.pile.append(operation)

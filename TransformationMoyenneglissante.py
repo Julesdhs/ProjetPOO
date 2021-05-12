@@ -1,5 +1,5 @@
-from TransformationAbstraite import TransformationAbstraite
-from EstimateurMoyenne import EstimateurMoyenne
+#from TransformationAbstraite import TransformationAbstraite
+#from EstimateurMoyenne import EstimateurMoyenne
 
 class TransformationMoyenneglissante():
     def __init__(self,periode,nomcolonnes):
