@@ -2,7 +2,7 @@
 
 class TransformationJointure(TransformationAbstraite):
 
-    def __init__(self,table,nomcol):
+    def __init__(self,table,nomcol,gauche = True):
         self.table = table
         self.nomcol = nomcol
 
@@ -28,7 +28,7 @@ class TransformationJointure(TransformationAbstraite):
         t2=TransformationJointure.extrait_table(self.nomcol,table2)
         return t1,t2
 
-    def transform(self,table2,gauche=True):
+    def transform(self,table2):
         TransformationJointure.delcol(self.nomcol,table2,self.table)
         (t2,t1)=TransformationJointure.prepare(self,self.table,table2)
         tj=Table([t1[0].colonnes[0]],[[t1[0].contenu[k][0]] for k in range(len(t1[0].contenu))])
@@ -49,7 +49,7 @@ class TransformationJointure(TransformationAbstraite):
                 for k in range(len(t2)-1):
                     tj.contenu[indiceval].append(t2[k+1].contenu[indicevalt2][0])
 
-            if gauche :
+            if self.gauche :
                 if val not in t2[0].contenu :
                     indiceval=t1[0].contenu.index(val)
                     '''sinon, et si on fait une jointure à gauche, on met des 0'''
