@@ -6,7 +6,7 @@
 class TransformationNormalisation(TransformationCentrage):
     ''' on définit le tableau centré réduit comme la classe fille de la classe pour les tableaux centrés '''
 
-    def transform(table):
+    def transform(self,table):
         TransformationCentrage.transform(table)
         for i in range(len(table.colonnes)):
             var = EstimateurVariance.variance(table,table.colonnes[i])
