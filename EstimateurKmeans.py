@@ -1,4 +1,5 @@
 import random
+from EstimateurAbstraite import EstimateurAbstraite
 
 class EstimateurKmeans(EstimateurAbstraite):
     '''Le processus utilisé ici est : on ajoute une colonne qui sert à noter la classe de chaque observation, puis on fait les calculs sur les variables isolées dans listcol, la table d'origine est alors modifiée avec une colonne en plus qui correspond à la classe de chaque observation'''
