@@ -1,6 +1,5 @@
-#from EstimateurAbstraite import EstimateurAbstraite
-#from Table import Table
-
+from EstimateurAbstraite import EstimateurAbstraite
+from Table import Table
 
 class EstimateurMoyenne():
 
