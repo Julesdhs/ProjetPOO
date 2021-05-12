@@ -40,7 +40,7 @@ class EstimateurKmeans(EstimateurAbstraite):
         return (nomcol,colonne_extraite)
 
     def arrange_ordre(table,listcol):
-        '''change l'ordre des colonnes en mettant les colonnes de la liste au début, et ajoute une colonne de zéros pour noter les classes'''
+        '''change l'ordre des colonnes en mettant les colonnes de la liste au début, et ajoute une colonne de zéros pour noter les classes, on garde les autres colonnes pour garder la vision générale lors de l'algo, arbitrairement'''
         T=Table(['Classes'],[[0] for k in range(len(table.contenu))])
         for nomcol in listcol :
             t=EstimateurKmeans.extrait_colonne(table,nomcol)
