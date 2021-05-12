@@ -2,7 +2,7 @@
 
 class TransformationCentrage(TransformationAbstraite):
 
-    def transform(table):
+    def transform(self,table):
         for i in range(len(table.colonnes)):
             moy = EstimateurMoyenne.moyenne(table,table.colonnes[i])
             for j in range(len(table.contenu)) :
