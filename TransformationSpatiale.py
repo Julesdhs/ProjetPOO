@@ -65,6 +65,7 @@ class TransformationSpatiale(TransformationAbstraite):
                                           newt.ajoutlig(ligne2)
                               table.colonnes = newt.colonnes
                               table.contenu = newt.contenu
+                              table.enlevlig(1)
                         else:
                               inddep  =  table.colonnes.index('dep')
                               indjour =  table.colonnes.index('jour')
@@ -88,6 +89,7 @@ class TransformationSpatiale(TransformationAbstraite):
                                           newt.ajoutlig(ligne)
                               table.colonnes = newt.colonnes
                               table.contenu = newt.contenu
+                              table.enlevlig(1)
                   if self.espace_final == 2:
                         ''' le code est le même que celui précédent juste que l'on va maintenant rajouter le passage de newt à un tableau à granularité nationale (ou on somme tout en quelque sorte) '''
                         var = table.colonnes
@@ -184,6 +186,7 @@ class TransformationSpatiale(TransformationAbstraite):
                                           newt.ajoutlig(ligne)
                               table.colonnes = newt.colonnes
                               table.contenu = newt.contenu
+                              table.enlevlig(1)
 
                               nbjours = len(newt.contenu)//18
                               print(nbjours)
@@ -217,10 +220,10 @@ class TransformationSpatiale(TransformationAbstraite):
                                     indjour =  table.colonnes.index('jour')
                                     newt = Table()
                                     newt.colonnes = table.colonnes
-                                    newt.colonnes[indreg]= nat
+                                    newt.colonnes[indreg]= 'nat'
                                     nbjours = len(table.contenu)//(11*18)
                                     for c in range(nbjours):
-                                          jour = table.contenu[1100*c][indjour]
+                                          jour = table.contenu[11*18*c][indjour]
                                           ligne0 = [0 for k in range(len(var))]
                                           ligne9 = [0 for k in range(len(var))]
                                           ligne19 = [0 for k in range(len(var))]
@@ -256,29 +259,29 @@ class TransformationSpatiale(TransformationAbstraite):
                                           ligne90[indjour] = jour
                                           for i in range(11*18):
                                                 for j in range(len(var)):
-                                                      if j!= indreg and j!= indjour :
-                                                            if table.contenu[11*18*c +i][indage]== 0:
-                                                                  ligne0[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 9:
-                                                            ligne9[j]+= table.contenu[11*c*18 + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 19:
-                                                            ligne19[j]+= table.contenu[11*c*18 + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 29:
-                                                            ligne29[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 39:
-                                                            ligne39[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 49:
-                                                            ligne49[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 59:
-                                                            ligne59[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 69:
-                                                            ligne69[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 79:
-                                                            ligne79[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 89:
-                                                            ligne89[j]+= table.contenu[11*18*c + i]
-                                                      elif table.contenu[11*18*c +i][indage]== 90:
-                                                            ligne90[j]+= table.contenu[11*18*c + i]
+                                                      if j!= indreg and j!= indjour and j!= indage:
+                                                            if table.contenu[11*18*c +i][indage]== '0':
+                                                                  ligne0[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '9':
+                                                                  ligne9[j]+= table.contenu[11*c*18 + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '19':
+                                                                  ligne19[j]+= table.contenu[11*c*18 + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '29':
+                                                                  ligne29[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '39':
+                                                                  ligne39[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '49':
+                                                                  ligne49[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '59':
+                                                                  ligne59[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '69':
+                                                                  ligne69[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '79':
+                                                                  ligne79[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '89':
+                                                                  ligne89[j]+= table.contenu[11*18*c + i][j]
+                                                            elif table.contenu[11*18*c +i][indage]== '90':
+                                                                  ligne90[j]+= table.contenu[11*18*c + i][j]
                                           newt.ajoutlig(ligne0)
                                           newt.ajoutlig(ligne9)
                                           newt.ajoutlig(ligne19)
@@ -302,7 +305,6 @@ class TransformationSpatiale(TransformationAbstraite):
                                     newt.colonnes = table.colonnes
                                     newt.colonnes[indreg] = 'nat'
                                     indjour =  table.colonnes.index('jour')
-                                    table.enlevcol(indnom)
                                     for c in range(nbjours):
                                           jour = table.contenu[18*c][indjour]
                                           ligne = [0 for k in range(len(table.colonnes))]
@@ -315,6 +317,8 @@ class TransformationSpatiale(TransformationAbstraite):
                                           newt.ajoutlig(ligne)
                                     table.colonnes = newt.colonnes
                                     table.contenu = newt.contenu
+                                    table.enlevlig(1)
+                                    table.enlevcol(indnom +1)
 
 
 
