@@ -1,6 +1,7 @@
 import random
 
 class EstimateurKmeans(EstimateurAbstraite):
+    '''Le processus utilisé ici est : on ajoute une colonne qui sert à noter la classe de chaque observation, puis on fait les calculs sur les variables isolées dans listcol, la table d'origine est alors modifiée avec une colonne en plus qui correspond à la classe de chaque observation'''
 
     def __init__(self,k,listcol):
         self.k = k
@@ -18,8 +19,9 @@ class EstimateurKmeans(EstimateurAbstraite):
                         cent[p]+=table.contenu[c][p]
             for p in range(nbvar):
                 if nbelem != 0 :
-                    cent = [int(random.random()*10) for j in range(nbvar)]
                     cent[p]=cent[p]/nbelem
+                if nbelem == 0:
+                    cent = [int(random.random()*10) for j in range(nbvar)]
             centres[i]=cent
 
     def distance(a,b,nbvar):
@@ -78,6 +80,5 @@ class EstimateurKmeans(EstimateurAbstraite):
             EstimateurKmeans.calcul_centres(table,centres,k,nbvar,indclasse)
             classes=EstimateurKmeans.extrait_colonne(table,'Classes')[1]
         table0.ajoutcol('Classes',classes)
-        print(classes)
 
-#testé 05/05 14h
+#testé 12/05 12h
