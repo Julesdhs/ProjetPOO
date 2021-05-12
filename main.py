@@ -84,3 +84,8 @@ Table3=Pipeline(table)
 Table3.ajout_etape(TransformationTemporelle(debut_semaine2,fin_semaine2))
 Table3.ajout_etape(EstimateurMoyenne('incid_hosp'))
 print(Table3.applique()[1].contenu)
+
+t=Import.creecsv(folder,filename)
+#tt=EstimateurKmeans.extrait_colonne(t,'nomReg')
+k=EstimateurKmeans(5,['incid_rea','numReg'])
+c=k.fit(t)
