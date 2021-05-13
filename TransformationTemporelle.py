@@ -77,7 +77,7 @@ class TransformationTemporelle(TransformationAbstraite):
             if ligne[ind]>= self.debut_periode and ligne[ind]<= self.fin_periode:
                 newtable.ajoutlig(ligne)
         table.contenu=newtable.contenu
-#        table.enlevlig(1)
+        table.enlevlig(1)
 
 
 
