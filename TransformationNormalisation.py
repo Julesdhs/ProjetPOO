@@ -29,7 +29,7 @@ class TransformationNormalisation(TransformationAbstraite):
         Paramètres
         ----------
         table : Table
-            table sur laquelle on veut effectuer la somme
+            table sur laquelle on veut effectuer la normalisation
 
         """
         c=TransformationCentrage(self.liste_colonnes)
