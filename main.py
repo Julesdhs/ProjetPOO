@@ -174,5 +174,20 @@ print(table.contenu[0][2])
 
 
 ## Question 8): Quel est le nombre cumulé de personnes décédées de 0 à 9 ans en comparaison aux personnes de plus de 90 ans?
+filename = "donnees-hospitalieres-classe-age-covid19-2021-05-12-19h05 (1).csv"
+table=Import.creecsv(folder,filename)
+pip8 = Pipeline(table)
+pip8.ajout_etape(TransformationTemporelle('jour','2021-05-12','2021-05-12'))
+pip8.ajout_etape(TransformationSelectionVariables(['reg','cl_age90','dc']))
+res8 = pip8.applique()
+nb = [0,0]
+for ligne in table.contenu:
+    if ligne[0]== '53':
+        if ligne[1] == '9':
+            nb[0]=ligne[2]
+        elif ligne[1] == '90':
+            nb[1]= ligne[2]
+print('le nombre de décès de moins de 9 ans et de plus de 90 ans en Bretagne est :')
+print(nb)
 
 
