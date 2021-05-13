@@ -3,13 +3,11 @@ from EstimateurSomme import EstimateurSomme
 from Pipeline import Pipeline
 import os
 
-folder = "P:/PTD/Donnees/Données/"
-filename = "donnees-hospitalieres-covid19-2021-03-03-17h03.csv"
+folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 
 
 ## Question 1): Quel est le nombre total d'hospitalisation dues au covid-19?
 #on crée la table
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-nouveaux-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 #on crée la pipeline
@@ -22,7 +20,6 @@ print(res1[0].contenu)
 
 ## Question 2) Combien de nouvelles hospitalisations ont eu lieu ces 7 derniers jours dans chaque département?
 #on crée la table
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-nouveaux-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 table.stringtoint('incid_hosp')
@@ -52,7 +49,6 @@ tableres.export('tableres.csv')
 
 
 ##Question 3) Comment évolue la moyenne des nouvelles hospitalisations journalières de cette semaine par rapport à celle de la semaine dernière?
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-nouveaux-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 # Semaine1
@@ -63,11 +59,10 @@ fin_semaine1='2021-05-04'
 
 pip2=Pipeline(table)
 pip2.ajout_etape(TransformationTemporelle('jour',debut_semaine1,fin_semaine1))
-res2 = pip2.applique()
 pip2.ajout_etape(EstimateurMoyenne('incid_hosp'))
 res2=pip2.applique()
 print("le résultat pour la semaine dernière :")
-print(res2[0].contenu)
+print(res2[1].contenu)
 #on trouve 14,11
 
 
@@ -78,40 +73,31 @@ table=Import.creecsv(folder,filename)
 
 Table3=Pipeline(table)
 Table3.ajout_etape(TransformationTemporelle('jour',debut_semaine2,fin_semaine2))
-res3 = Table3.applique()
 Table3.ajout_etape(EstimateurMoyenne('incid_hosp'))
 res3=Table3.applique()
 print("le résultat pour cette semaine :")
-print(res3[0].contenu)
+print(res3[1].contenu)
 #on trouve 10,46
 
 ##Question 4)Quel est le résultat de k-means avec k = 3 sur les données des départements du mois de Janvier 2021, lissées avec une moyenne glissante de 7 jours?
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-nouveaux-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 pip4 = Pipeline(table)
 pip4.ajout_etape(TransformationTemporelle('jour','2021-01-01','2021-01-31'))
-res4 = pip4.applique()
 pip4.ajout_etape(MoyenneGlissante(7,'incid_hosp'))
-res4 = pip4.applique()
 pip4.ajout_etape(MoyenneGlissante(7,'incid_rea'))
-res4 = pip4.applique()
 pip4.ajout_etape(MoyenneGlissante(7,'incid_dc'))
-res4 = pip4.applique()
 pip4.ajout_etape(MoyenneGlissante(7,'incid_rad'))
-res4 = pip4.applique()
 pip4.ajout_etape(TransformationSelectionVariables(['dep','jour','moyenne_gincid_hosp', 'moyenne_gincid_rea', 'moyenne_gincid_dc', 'moyenne_gincid_rad']))
-res4 = pip4.applique()
 pip4.ajout_etape(EstimateurKmeans(3,['moyenne_gincid_hosp', 'moyenne_gincid_rea', 'moyenne_gincid_dc', 'moyenne_gincid_rad']))
 res4 = pip4.applique()
 
 #on exporte le tableau dans le dossier où sont les données
 os.chdir(folder)
-tableres.export('K-means.csv')
+table.export('K-means.csv')
 
 
 ##Question 5)Combien de nouvelles admissions en réanimation ont eu lieu pendant la semaine suivant les vacances de la Toussaint de 2020?
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "VacancesScolaires.json"
 table5=Import.creejson(folder,filename) # Cela nous retourne une liste de deux tables, la table du calendrier et celle des académies
 # On récupère seulement celle des académies
@@ -142,9 +128,8 @@ pip6.ajout_etape(EstimateurSomme('incid_rea'))
 res6=pip6.applique()
 print(res6[0].contenu)
 
-## Question 6) Quel est le nombre de décès(à l'hopital) totaux à ce jour et selon les sexes?
+## Question 6) Quel est le nombre de décès(à l'hopital) totaux à ce jour par région et selon les sexes?
 #on crée la table
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 table.stringtoint('dc')
@@ -162,7 +147,6 @@ table.export('question6.csv')
 
 ## Question 7) Quel est le nombre de services hospitaliers qui ont déclaré au moins un cas en France?
 #il y a un mois
-folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-etablissements-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 table.stringtoint('nb')
