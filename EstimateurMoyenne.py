@@ -22,7 +22,7 @@ class EstimateurMoyenne():
 
     @staticmethod
     def moyenne(table,nom_col):
-        """ Méthode statique fit de la classe EstimateurMoyenne
+        """ Méthode statique moyenne de la classe EstimateurMoyenne
     
         Cette méthode permet d'effectuer la moyenne d'une variable d'une table.
         
