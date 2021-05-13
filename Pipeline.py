@@ -8,15 +8,12 @@ class Pipeline():
         if res is None :
             res = []
         self.pile = pile
+        self.res = res
 
     def ajout_etape(self,operation):
         self.pile.append(operation)
 
     def applique(self):
-        j=0
         for k in range(len(self.pile)):
-            if len(self.pile) != 0 :
-                self.res.append(self.pile[k-j].process(self.table))
-                del self.pile[0]
-                j+=1
+                self.res.append(self.pile[k].process(self.table))
         return(self.res)
