@@ -1,98 +1,117 @@
-#from Table import Table
-class TransformationJointure(TransformationAbstraite):
+class TransformationJointure(TransformationAbstraite) :
+    '''
+    Attributs
+    ----------
+    table2 : table
+        une table qu'on joint à la table en argument de transform
+    
+    nomcol : str
+        la colonne clé de la jointure
+        
+    Méthodes
+    -------
+    transform()
+        applique la jointure à la table en argument
 
-    def __init__(self,table,nomcol,gauche = True):
-        self.table = table
-        self.nomcol = nomcol
-        self.gauche = gauche
+    '''
 
-    def extrait_colonne(table,nomcol):
-        indice=table.colonnes.index(nomcol)
-        colonne_extraite=[]
-        for ligne in table.contenu:
-            colonne_extraite.append([ligne[indice]])
-        return Table([nomcol],colonne_extraite)
-
-    def extrait_table(nomcol,table):
-        L=[TransformationJointure.extrait_colonne(table,nomcol)]
-        for cols in table.colonnes :
-            if cols != nomcol :
-                L.append(TransformationJointure.extrait_colonne(table,cols))
-        return(L)
-
-    def delcol(clef,table1,table2):
-        for nomcol in table2.colonnes :
-            if nomcol != clef :
-                if nomcol in table1.colonnes:
-                    Table.enlevcol(table2,table2.colonnes.index(nomcol)+1)
-
-
-    def prepare(self,table1,table2):
-        t1=TransformationJointure.extrait_table(self.nomcol,table1)
-        t2=TransformationJointure.extrait_table(self.nomcol,table2)
-        return t1,t2
-
-    def transform(self,table2):
-        TransformationJointure.delcol(self.nomcol,table2,self.table)
-        (t2,t1)=TransformationJointure.prepare(self,self.table,table2)
-        tj=Table([t1[0].colonnes[0]],[[t2[0].contenu[k][0]] for k in range(len(t2[0].contenu))])
-        for k in range(len(t1)-1):
-            tj.colonnes.append(t1[k+1].colonnes[0])
-        for k in range(len(t2)-1):
-            tj.colonnes.append(t2[k+1].colonnes[0])
-
-        for val in t2[0].contenu :
-            if val in t1[0].contenu :
-                '''si la valeur est dans la 2e table on ajoute tout le reste'''
-                indiceval=t1[0].contenu.index(val)
-                indicevalt2=t2[0].contenu.index(val)
-
-                for k in range(len(t1)-1):
-                    tj.contenu[indiceval].append(t1[k+1].contenu[indiceval][0])
-
-
-                for k in range(len(t2)-1):
-                    tj.contenu[indiceval].append(t2[k+1].contenu[indicevalt2][0])
-        if self.gauche :
-            '''si la valeur est dans la table de base et pas dans celle qu'on ajoute, on cherche où elle devrait être et on l'insère, cette méthode est peu claire mais on l'utilise car on l'ajoute à un autre algo qui fait la jointure intersection '''
-            for val in t1[0].contenu :
-                if val not in t2[0].contenu:
-                    indiceval=t1[0].contenu.index(val)
-
-                    if indiceval == 0 :
-
-                        tj.contenu = [[]] + tj.contenu
-
-                        for k in range(len(t1)-1):
-                            tj.contenu[0].append(t1[k+1].contenu[0][0])
-
-                        for k in range(len(t2)-1):
-                            tj.contenu[0].append(0)
-
-                    if indiceval != 0 :
-                        ind_upt1=indiceval-1
-                        upt1=t1[0].contenu[ind_upt1][0]
-                        ind_uptj = ind_upt1
-                        uptj=tj.contenu[ind_uptj][0]
-
-                        while upt1 != uptj:
-                            ind_uptj += 1
-                            uptj = tj.contenu[ind_uptj][0]
-
-                        while uptj == tj.contenu[ind_uptj +1][0]:
-                            ind_uptj += 1
-                            uptj = tj.contenu[ind_uptj][0]
-
-
-                        for k in range(len(t1)-1):
-                            tj.contenu[ind_uptj+1].append(t1[k+1].contenu[indiceval][0])
-
-                        for k in range(len(t2)-1):
-                            tj.contenu[ind_uptj+1].append(0)
-
-        return tj
-
-
-
-
-
+    def __init__(self, table2, nomcol):
+        self.table2=table2
+        self.nomcol=nomcol
+        
+    def transform(self,table1):
+        n=len(table1.contenu)
+        p=len(table1.colonnes)
+        q=len(self.table2.colonnes)
+        '''
+        On crée deux dictionnaires ayant chacun comme clefs les valeurs qui sont dans la clé primaires pour la table1 et aura pour valeur les positions d'apparition des clefs
+        '''
+        Dictionnaire_gauche={}
+        
+        U=[]
+        V=[]
+        j=table1.colonnes.index(self.nomcol)
+        s=self.table2.colonnes.index(self.nomcol)
+        for i in range (0, n):
+            U.append(table1.contenu[i][j])
+        for i in range (0, len(self.table2.contenu)):
+            V.append(self.table2.contenu[i][s])
+        
+        for k in range(0,n):
+            if U[k][0] in Dictionnaire_gauche:
+                Dictionnaire_gauche[U[k]].append(k)
+            else:
+                Dictionnaire_gauche[U[k]]=[k]
+        
+        Dictionnaire_droit={}
+    
+        for k in range(0,n):
+            if V[k] in Dictionnaire_droit:
+                Dictionnaire_droit[V[k]].append(k)
+            else:
+                Dictionnaire_droit[V[k]]=[k]
+        
+        
+        Table_j=Table([],[[]])
+        
+        Table_j.colonnes=[table1.colonnes[k] for k in range(len(table1.colonnes))]
+        Table_j.colonnes+=[self.table2.colonnes[k] for k in range(len(self.table2.colonnes)) if self.table2.colonnes[k] not in table1.colonnes]
+                
+        
+        ''''    
+        On remplit Table_j en mettant les clefs autant de fois qu'elles doivent apparaitre
+        '''
+        for clef in Dictionnaire_gauche:
+            apparition=len(Dictionnaire_gauche[clef])
+            if clef in Dictionnaire_droit:
+                apparition+=len(Dictionnaire_droit[clef])-1
+            for i in range(apparition):
+                L=['NULL' for k in range(p+q)]
+                L[0]=clef
+                Table_j.ajoutlig(L)
+        Table_j.enlevlig(1)
+        '''
+        On continue de remplir Table_j avec toute la partie gauche
+        '''
+        for k in range(len(Table_j.contenu)):
+            
+            A=table1.contenu[U.index(Table_j.contenu[k][0])][:j] 
+            '''
+            j est l'indice où se trouve la clef dans la table1
+            '''
+            A+=table1.contenu[U.index(Table_j.contenu[k][0])][j+1:]
+            for _ in range(0,q):
+                A.append('NULL')
+            Table_j.contenu[k][1:]=A
+        '''
+        Pour finir on remplit la partie droite quand il y'a bien une relation
+        '''
+        W=[]
+        h=Table_j.colonnes.index(self.nomcol)
+        for i in range (0, n):
+            W.append(Table_j.contenu[i][h])
+        
+        for clef in Dictionnaire_gauche:
+            if clef in Dictionnaire_droit:
+                i=0
+                for position in Dictionnaire_droit[clef]:
+                    B=self.table2.contenu[position][:s]
+                    '''
+                    s est l'indice de la colonne clé dans la table 2
+                    '''
+                    B+=self.table2.contenu[position][s+1:]
+                    Table_j.contenu[W.index(clef)+i][p:]=B
+                    i+=1
+        
+        table1.colonnes = []
+        table1.contenu = [[Table_j.contenu][0] for k in range(len(Table_j.contenu))]
+        print(Table_j.colonnes,Table_j.contenu[0])
+        print(len(Table_j.contenu),len(table1.contenu))
+        for j in range(len(Table_j.colonnes)) :
+            table1.colonnes.append(Table_j.colonnes[j])
+        for k in range(len(Table_j.contenu)):
+                for j in range(1,len(Table_j.colonnes)):
+                    table1.contenu[k].append(Table_j.contenu[k][j])
+                    
+        
+        
