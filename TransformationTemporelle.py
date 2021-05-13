@@ -1,11 +1,49 @@
-#from TransformationAbstraite import TransformationAbstraite
-
 from TransformationAbstraite import TransformationAbstraite
-from Table import Table
 from datetime import datetime,timedelta
 
 class TransformationTemporelle(TransformationAbstraite):
+    '''La classe permet de ne conserver que certaines observations de la table 
+    dont la date est comprise dans une période donnée.
+    Pour selectionner la periode soit on a deux dates précises (de fin et de début), 
+    soit une date et un temps delta définissant la durée de notre période.
+
+    Attribus
+    ----------
+    nom_col : str
+        nom de la colonne qui permet de faire le fenetrage
+    
+    debut_periode : str
+        debut de la période qui permet de faire le fenetrage
+    valeur par défaut : None
+    
+    fin_periode : str
+        fin de la période qui permet de faire le fenetrage
+    valeur par défaut : None
+    
+    delta : int
+        durée de la période qui permet de faire le fenetrage
+    valeur par défaut : None
+    '''
+    
     def __init__(self,nom_col,debut_periode=None,fin_periode=None,delta=None):
+        """ Constructeur de la classe TransformationTemporelle
+        Paramètres
+        ----------
+        nom_col : str
+            nom de la colonne qui permet de faire le fenetrage
+
+        debut_periode : str
+            debut de la période qui permet de faire le fenetrage
+        valeur par défaut : None
+
+        fin_periode : str
+            fin de la période qui permet de faire le fenetrage
+        valeur par défaut : None
+
+        delta : int
+            durée de la période qui permet de faire le fenetrage
+        valeur par défaut : None
+        """   
         self.nom_col=nom_col
         if debut_periode != None:
             if delta != None:
@@ -21,16 +59,25 @@ class TransformationTemporelle(TransformationAbstraite):
         self.fin_periode = fin_periode
    
     def transform(self,table):
+        """ Méthode transform de la classe TransformationTemporelle
+    
+        Cette méthode permet d'effectuer le fenetrage de la table donnée en paramètre.
 
-        '''les données sont classées par ordre temporel et la date est un jour, noté par la variable jour dans les tables, on considère des inégalités larges dans debut_periode et strictes pour fin_periode
-        Si les données ne sont pas classées par odre temporel il faudra utiliser le module date time et trier les données au préalable : ce n'est pas notre cas ici'''
+        
+        Paramètres
+        ----------
+        table : Table
+            table sur laquelle on veut effectuer le fenetrage
+        
+        """
+
         newtable=Table()
         ind = table.colonnes.index(self.nom_col)
-        for ligne in table.contenu:
+        for ligne in table.contenu: # on parcourt toute la table et on cherche lorsque l'observation appartient à notre période
             if ligne[ind]>= self.debut_periode and ligne[ind]<= self.fin_periode:
                 newtable.ajoutlig(ligne)
         table.contenu=newtable.contenu
-        table.enlevlig(1)
+#        table.enlevlig(1)
 
 
 
