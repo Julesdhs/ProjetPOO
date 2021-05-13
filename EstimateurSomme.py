@@ -20,7 +20,7 @@ class EstimateurSomme(EstimateurAbstraite):
     
     @staticmethod
     def somme(table,nom_col):
-        """ Méthode statique fit de la classe EstimateurSomme
+        """ Méthode statique somme de la classe EstimateurSomme
     
         Cette méthode permet d'effectuer la somme d'une variable d'une table.
         
