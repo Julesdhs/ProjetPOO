@@ -21,7 +21,7 @@ class EstimateurVariance(EstimateurAbstraite):
     
     @staticmethod
     def variance (table,nom_col):
-        """ Méthode statique fit de la classe EstimateurVariance
+        """ Méthode statique variance de la classe EstimateurVariance
     
         Cette méthode permet d'effectuer la variance d'une variable d'une table.
         
