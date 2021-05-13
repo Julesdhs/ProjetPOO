@@ -23,8 +23,6 @@ table=Import.cree(folder,filename)
 TransformationSelectionVariables(['jour','hosp']).transform(table)
 print(table.colonnes,table.contenu[0])
 
-# Test de TransformationTemporelle
-
 # Test de TransformationSpatiale
 from TransformationSpatiale import TransformationSpatiale
 folder = "P:/PTD/Donnees/Données/"
