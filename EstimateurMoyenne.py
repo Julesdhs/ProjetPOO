@@ -46,4 +46,20 @@ class EstimateurMoyenne():
         return (moy / nb_obs)
 
     def fit(self, table):
+        """ Méthode statique fit de la classe EstimateurMoyenne
+    
+        Cette méthode permet d'effectuer la moyenne d'une variable d'une table.
+        
+        Paramètres
+        ----------
+        table : Table
+            table sur laquelle on veut effectuer la moyenne
+        nom_col : str
+            nom de la variable dans notre table sur laquelle on veut effectuer notre moyenne
+        
+        Retours
+        -------
+        res : Table
+            table contenant la moyenne demandée
+        """
         return Table(["moyenne de" + self.nom_col], [EstimateurMoyenne.moyenne(table, self.nom_col)])
