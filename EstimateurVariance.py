@@ -1,4 +1,4 @@
-from EstimateurAbstraite import EstimateurAbstraite
+#from EstimateurAbstraite import EstimateurAbstraite
 
 class EstimateurVariance(EstimateurAbstraite):
     def __init__(self,nom_col):
@@ -8,7 +8,7 @@ class EstimateurVariance(EstimateurAbstraite):
     def variance (table,nom_col):
         indice=table.colonnes.index(nom_col)
         nb_obs=len(table.contenu)
-        moy=table.moyenne()
+        moy=EstimateurMoyenne.moyenne(table,nom_col)
         var=0
         for ligne in range (nb_obs):
             var+=table.contenu[ligne][indice]**2
