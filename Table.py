@@ -52,7 +52,7 @@ class Table(object) :
     def export(self,nom):
         with open(nom, 'w') as f:
 
-            write = csv.writer(f, delimiter = ',')
+            write = csv.writer(f, delimiter = ",")
             write.writerow(self.colonnes)
             write.writerows(self.contenu)
 
@@ -60,6 +60,7 @@ class Table(object) :
         ind = self.colonnes.index(nomvar)
         n = len(self.contenu)
         for i in range(n):
-            self.contenu[i][ind]=int(self.contenu[i][ind])
+            if len(self.contenu[i]) != 0 :
+                self.contenu[i][ind]=int(self.contenu[i][ind])
 
 #testé 05/05 14h
