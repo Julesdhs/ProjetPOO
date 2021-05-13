@@ -14,7 +14,7 @@ class EstimateurSomme(EstimateurAbstraite):
     Paramètres
     ----------
     nom_col : str
-        nom de la variable à garder dans notre table
+        nom de la variable dans notre table sur laquelle on veut effectuer notre somme
     """       
         self.nom_col=nom_col
     
@@ -29,7 +29,7 @@ class EstimateurSomme(EstimateurAbstraite):
         table : Table
             table sur laquelle on veut effectuer la somme
         nom_col : str
-            nom de la variable à garder dans notre table
+            nom de la variable dans notre table sur laquelle on veut effectuer notre somme
         
         Retours
         -------
