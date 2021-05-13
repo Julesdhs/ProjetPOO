@@ -7,7 +7,6 @@ folder = "P:/PTD/Donnees/Données/"
 filename = "donnees-hospitalieres-covid19-2021-03-03-17h03.csv"
 
 
-
 ## Question 1): Quel est le nombre total d'hospitalisation dues au covid-19?
 #on crée la table
 folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
@@ -29,7 +28,7 @@ table=Import.creecsv(folder,filename)
 table.stringtoint('incid_hosp')
 #on crée la pipeline
 Question2=Pipeline(table)
-Question2.ajout_etape(TransformationTemporelle('2021-05-05','2021-05-12'))
+Question2.ajout_etape(TransformationTemporelle('jour','2021-05-05','2021-05-12'))
 Question2.applique()
 #on fait des modifications pour obtenir la somme par departements
 tabledep=Import.creecsv(folder,filename)
@@ -63,7 +62,7 @@ fin_semaine1='2021-05-04'
 
 
 pip2=Pipeline(table)
-pip2.ajout_etape(TransformationTemporelle(debut_semaine1,fin_semaine1))
+pip2.ajout_etape(TransformationTemporelle('jour',debut_semaine1,fin_semaine1))
 res2 = pip2.applique()
 pip2.ajout_etape(EstimateurMoyenne('incid_hosp'))
 res2=pip2.applique()
@@ -78,7 +77,7 @@ fin_semaine2='2021-05-12'
 table=Import.creecsv(folder,filename)
 
 Table3=Pipeline(table)
-Table3.ajout_etape(TransformationTemporelle(debut_semaine2,fin_semaine2))
+Table3.ajout_etape(TransformationTemporelle('jour',debut_semaine2,fin_semaine2))
 res3 = Table3.applique()
 Table3.ajout_etape(EstimateurMoyenne('incid_hosp'))
 res3=Table3.applique()
@@ -91,15 +90,59 @@ folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-nouveaux-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 pip4 = Pipeline(table)
-pip4.ajout_etape(TransformationTemporelle('2021-01-01','2021-01-31'))
+pip4.ajout_etape(TransformationTemporelle('jour','2021-01-01','2021-01-31'))
 res4 = pip4.applique()
-pip4.ajout_etape(EstimateurKmeans(3,['incid_hosp','incid_rea','incid_dc','incid_rad']))
+pip4.ajout_etape(MoyenneGlissante(7,'incid_hosp'))
 res4 = pip4.applique()
+pip4.ajout_etape(MoyenneGlissante(7,'incid_rea'))
+res4 = pip4.applique()
+pip4.ajout_etape(MoyenneGlissante(7,'incid_dc'))
+res4 = pip4.applique()
+pip4.ajout_etape(MoyenneGlissante(7,'incid_rad'))
+res4 = pip4.applique()
+pip4.ajout_etape(TransformationSelectionVariables(['dep','jour','moyenne_gincid_hosp', 'moyenne_gincid_rea', 'moyenne_gincid_dc', 'moyenne_gincid_rad']))
+res4 = pip4.applique()
+pip4.ajout_etape(EstimateurKmeans(3,['moyenne_gincid_hosp', 'moyenne_gincid_rea', 'moyenne_gincid_dc', 'moyenne_gincid_rad']))
+res4 = pip4.applique()
+
+#on exporte le tableau dans le dossier où sont les données
+os.chdir(folder)
+tableres.export('K-means.csv')
 
 
 ##Question 5)Combien de nouvelles admissions en réanimation ont eu lieu pendant la semaine suivant les vacances de la Toussaint de 2020?
+folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
+filename = "VacancesScolaires.json"
+table5=Import.creejson(folder,filename) # Cela nous retourne une liste de deux tables, la table du calendrier et celle des académies
+# On récupère seulement celle des académies
+table5_calendar=table5[0]
+table5_calendar.contenu=table5_calendar.contenu[1:]
+pip5=Pipeline(table5_calendar)
+# On commence par faire un fenetrage sur le l'année 2020
+pip5.ajout_etape(TransformationTemporelle('Debut','2020-01-01','2020-12-31'))
+pip5.applique()
+# Etape 2 : On récupère les dates des vacances dce la Toussaint
+indvac=table5_calendar.colonnes.index('Description')
+ind_debut=table5_calendar.colonnes.index('Debut')
+ind_fin=table5_calendar.colonnes.index('Fin')
+for ligne in table5_calendar.contenu:
+    if ligne[indvac] == 'Vacances de la Toussaint':
+        date_debut=ligne[ind_debut]
+        date_fin=ligne[ind_fin]
+        break
+# On selectionne la semaine suivant les vacances de la Toussaint
+folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
+filename = "donnees-hospitalieres-nouveaux-covid19-2021-05-12-19h05.csv"
+table=Import.creecsv(folder,filename)
+table.stringtoint('incid_rea')
+pip6=Pipeline(table)
+pip6.ajout_etape(TransformationTemporelle('jour',date_fin,delta=7))
+pip6.applique()
+pip6.ajout_etape(EstimateurSomme('incid_rea'))
+res6=pip6.applique()
+print(res6[0].contenu)
 
-## Question 6) Quel est le nombre de décès(à l'hopital)totaux à ce jour et selon les sexes?
+## Question 6) Quel est le nombre de décès(à l'hopital) totaux à ce jour et selon les sexes?
 #on crée la table
 folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
 filename = "donnees-hospitalieres-covid19-2021-05-12-19h05.csv"
@@ -108,7 +151,7 @@ table.stringtoint('dc')
 pip6 = Pipeline(table)
 pip6.ajout_etape(TransformationSelectionVariables(['dep','sexe','jour','dc']))
 res6 = pip6.applique()
-pip6.ajout_etape(TransformationTemporelle('2021-05-12','2021-05-12'))
+pip6.ajout_etape(TransformationTemporelle('jour','2021-05-12','2021-05-12'))
 res6 = pip6.applique()
 pip6.ajout_etape(TransformationSpatiale(1,0))
 res6 = pip6.applique()
@@ -124,11 +167,11 @@ filename = "donnees-hospitalieres-etablissements-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 table.stringtoint('nb')
 pip7 = Pipeline(table)
-pip7.ajout_etape(TransformationTemporelle('2021-04-12','2021-04-12'))
+pip7.ajout_etape(TransformationTemporelle('jour','2021-04-12','2021-04-12'))
 res7 = pip7.applique()
 pip7.ajout_etape(TransformationSpatiale(2,0))
 res7 = pip7.applique()
-print('le nombre de services ayant déclaré au moins un casil y a un mois est :')
+print('le nombre de services ayant déclaré au moins un cas il y a un mois est :')
 print(table.contenu[0][2])
 
 
@@ -138,10 +181,14 @@ filename = "donnees-hospitalieres-etablissements-covid19-2021-05-12-19h05.csv"
 table=Import.creecsv(folder,filename)
 table.stringtoint('nb')
 pip7 = Pipeline(table)
-pip7.ajout_etape(TransformationTemporelle('2021-05-12','2021-05-12'))
+pip7.ajout_etape(TransformationTemporelle('jour','2021-05-12','2021-05-12'))
 res7 = pip7.applique()
 pip7.ajout_etape(TransformationSpatiale(2,0))
 res7 = pip7.applique()
 print('le nombre de services ayant déclaré au moins un cas actuellement est :')
 print(table.contenu[0][2])
+
+
+## Question 8): Quel est le nombre cumulé de personnes décédées de 0 à 9 ans en comparaison aux personnes de plus de 90 ans?
+
 
