@@ -1,9 +1,7 @@
 from Importcsv import Import
 from EstimateurSomme import EstimateurSomme
 from Pipeline import Pipeline
-folder = "P:/PTD/Donnees/Données/"
-filename = "donnees-hospitalieres-covid19-2021-03-03-17h03.csv"
-
+import os
 
 
 ## Question 1): Quel est le nombre total d'hospitalisation dues au covid-19?
@@ -44,6 +42,11 @@ tableres.ajoutcol('nouv_hosp_hebdo',col)
 print("le tableau de résultat:")
 print(tableres.contenu)
 
+#on exporte le tableau dans le dossier où sont les données
+os.chdir(folder)
+tableres.export('tableres.csv')
+
+
 
 
 ##Question 3) Comment évolue la moyenne des nouvelles hospitalisations journalières de cette semaine par rapport à celle de la semaine dernière?
@@ -80,9 +83,24 @@ print("le résultat pour cette semaine :")
 print(res3[0].contenu)
 #on trouve 13.49
 
-
-
 ##Question 4)Quel est le résultat de k-means avec k = 3 sur les données des départements du mois de Janvier 2021, lissées avec une moyenne glissante de 7 jours?
+folder = "C:/Users/leonk/Documents/ProjetPOO-master/Donnees/Données/"
+filename = "donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv"
+table=Import.creecsv(folder,filename)
+pip4 = Pipeline(table)
+pip4.ajout_etape(TransformationTemporelle('2021-01-01','2021-01-31'))
+res4 = pip4.applique()
+pip4.ajout_etape(EstimateurKmeans(3,['incid_hosp','incid_rea','incid_dc','incid_rad']))
+res4 = pip4.applique()
+print(res4[0].contenu)
+
+
+##5)Combien de nouvelles admissions en réanimation ont eu lieu pendant la semaine suivant les vacances de la Toussaint de 2020?
+
+
+
+
+
 
 
 
