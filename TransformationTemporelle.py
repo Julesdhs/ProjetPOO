@@ -20,7 +20,7 @@ class TransformationTemporelle(TransformationAbstraite):
             table.enlevlig(1)
         else:
             newtable=Table()
-            ind = table.colonnes.index('debut')
+            ind = table.colonnes.index('Debut')
             for ligne in table.contenu:
                 if ligne[ind]>= self.debut_periode and ligne[ind]<= self.fin_periode:
                     newtable.ajoutlig(ligne)
