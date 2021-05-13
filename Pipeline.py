@@ -1,4 +1,3 @@
-
 #from OperationAbstraite import OperationAbstraite
 
 class Pipeline():
@@ -17,8 +16,4 @@ class Pipeline():
     def applique(self):
         for k in range(len(self.pile)):
                 self.res.append(self.pile[k].process(self.table))
-<<<<<<< HEAD
         return(self.res)
-=======
-        return(self.res)
->>>>>>> 0d2d1423aafeb89090a708e0f7977664b2862d0c
