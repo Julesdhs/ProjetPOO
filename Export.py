@@ -5,7 +5,7 @@ class Export():
         self.nom=nom
         
 
-    def fit(self,table):
+    def export(self,table):
         with open(self.nom, 'w') as f:
 
             write = csv.writer(f, delimiter = ',')
